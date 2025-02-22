@@ -100,25 +100,21 @@ class Boule:
                 if dist < min_dist:
                     angle = self.calculerAngle(autre)
                     overlap = min_dist - dist
-
-                    # Correction du chevauchement
+                    
                     self.x -= overlap / 2 * math.cos(angle) + REPOUSSEMENT * math.cos(angle)
                     self.y -= overlap / 2 * math.sin(angle) + REPOUSSEMENT * math.sin(angle)
                     autre.x += overlap / 2 * math.cos(angle) - REPOUSSEMENT * math.cos(angle)
                     autre.y += overlap / 2 * math.sin(angle) - REPOUSSEMENT * math.sin(angle)
 
-                    # Composantes des vitesses dans le repère de la collision
                     v1x = self.vx * math.cos(angle) + self.vy * math.sin(angle)
                     v1y = -self.vx * math.sin(angle) + self.vy * math.cos(angle)
                     v2x = autre.vx * math.cos(angle) + autre.vy * math.sin(angle)
                     v2y = -autre.vx * math.sin(angle) + autre.vy * math.cos(angle)
 
-                    # Collision élastique avec frottement
                     m1, m2 = self.masse, autre.masse
                     v1x_new = ((v1x * (m1 - m2) + 2 * m2 * v2x) / (m1 + m2)) * COR_BOULES
                     v2x_new = ((v2x * (m2 - m1) + 2 * m1 * v1x) / (m1 + m2)) * COR_BOULES
 
-                    # Retour au repère original
                     self.vx = v1x_new * math.cos(angle) - v1y * math.sin(angle)
                     self.vy = v1x_new * math.sin(angle) + v1y * math.cos(angle)
                     autre.vx = v2x_new * math.cos(angle) - v2y * math.sin(angle)
@@ -141,6 +137,8 @@ class Boule:
         pygame.draw.circle(surface, self.couleur, (int(self.x), int(self.y)), self.rayon)
 
 
+#Balle = Boule(posX, posY, rayon, masse, couleur(r,g,b))
+
 balle1 = Boule(320, 240, 15, 10, (255, 0, 255))
 balle2 = Boule(350, 240, 15, 10, (0, 255, 255))
 balle4 = Boule(350, 240, 15, 10, (255, 255, 0))
@@ -149,6 +147,7 @@ balle3 = Boule(380, 240, 40, 20, (255, 255, 255))
 balle6 = Boule(380, 240, 40, 20, (255, 255, 255))
 balle7 = Boule(380, 240, 100, 100, (128, 128, 128))
 
+#Balle.relier(autreBalle, force, longueurAVide)
 balle1.relier(balle2, 0.05, 500)
 balle1.relier(balle4, 0.05, 500)
 balle1.relier(balle5, 0.01, 500)
